@@ -53,7 +53,7 @@ def get_sum_of_contacts(x, cools, cooler_names, cols, intnames):
         chrom2 = re.findall(r'\d+', chrom2)[0]
     # Loop through coolers
     for i in range(len(cools)):
-        pixel = cools[i].matrix(balance='VC', as_pixels=True, join=True).fetch("{}:{}-{}".format(chrom1, start1, end1), "{}:{}-{}".format(chrom2, start2, end2))
+        pixel = cools[i].matrix(balance=True, as_pixels=True, join=True).fetch("{}:{}-{}".format(chrom1, start1, end1), "{}:{}-{}".format(chrom2, start2, end2))
         balanced = sum(pixel['balanced'])
         count = sum(pixel['count'])
         if pixel.shape[0] == 0:
