@@ -42,27 +42,29 @@ res_df = pd.DataFrame(columns = columns)
 vals = []
 
 def get_sum_of_contacts(x, cools, cooler_names, cols, intnames):
+    # Define coordinates
     (chrom1) = x.loc["chrom1"]
     (start1) = int(x.loc["start1"])
     (end1) = int(x.loc["end1"])
     (chrom2) = x.loc["chrom2"]
     (start2) = int(x.loc["start2"])
     (end2) = int(x.loc["end2"])
+    # If intnames option selected, make the chromosome names 1,2,3... and not chr1,chr2.chr3...
     if intnames:
         chrom1 = re.findall(r'\d+', chrom1)[0]
         chrom2 = re.findall(r'\d+', chrom2)[0]
-    # Loop through coolers
+    # Loop through coolers and extract raw and balanced counts
     for i in range(len(cools)):
+        # Fetch pixels for current coordinate region via cooler's matrix selector
         pixel = cools[i].matrix(balance=True, as_pixels=True, join=True).fetch("{}:{}-{}".format(chrom1, start1, end1), "{}:{}-{}".format(chrom2, start2, end2))
-        balanced = sum(pixel['balanced'])
-        count = sum(pixel['count'])
-        if pixel.shape[0] == 0:
+        balanced = sum(pixel['balanced']) # sum balanced if number of pixels in current region > 1
+        count = sum(pixel['count']) # sum raw if number of pixels in current region > 1
+        if pixel.shape[0] == 0: # if no pixels returned, just set counts to 0
             x["{}_count".format(cooler_names[i])] = 0
             x["{}_balanced".format(cooler_names[i])] = 0
         else:
             x["{}_count".format(cooler_names[i])] = count
             x["{}_balanced".format(cooler_names[i])] = balanced
-    #print(regions)
     return(x)
 
 res_df = bedpe.apply(get_sum_of_contacts, axis=1, cools=cools, cooler_names=cooler_names, cols=columns, intnames=args.int_chromnames)
