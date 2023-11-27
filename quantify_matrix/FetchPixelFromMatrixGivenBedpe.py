@@ -40,29 +40,6 @@ for i in range(len(cooler_names)):
 print("Fetching regions...")
 res_df = pd.DataFrame(columns = columns)
 vals = []
-#for i in np.arange(0, bedpe.shape[0]):
-#    (chrom1) = bedpe.loc[i,"chrom1"]
-#    (start1) = int(bedpe.loc[i,"start1"])
-#    (end1) = int(bedpe.loc[i, "end1"])
-#    (chrom2) = bedpe.loc[i, "chrom2"]
-#    (start2) = int(bedpe.loc[i, "start2"])
-#    (end2) = int(bedpe.loc[i, "end2"])
-
-#    print("{} {} {} {} {} {}".format(chrom1, start1, end1, chrom2, start2, end2))
-#    regions = pd.DataFrame({'chrom1': [chrom1], 'start1': [start1], 'end1': [end1], 'chrom2': [chrom2], 'start2': [start2], 'end2': [end2]})
-    # Get score from each cooler 
-#    for i in range(len(cools)):
-#        pixel = cools[i].matrix(balance=True, as_pixels=True, join=True).fetch("{}:{}-{}".format(chrom1, start1, end1), "{}:{}-{}".format(chrom2, start2, end2))
-#        balanced = sum(pixel['balanced'])
-#        count = sum(pixel['count'])
-#        if pixel.shape[0] == 0:
-#            regions[["{}_count".format(cooler_names[i])]] = 0
-#            regions[["{}_balanced".format(cooler_names[i])]] = 0
-#        else:
-#            regions[["{}_count".format(cooler_names[i])]] = count
-#            regions[["{}_balanced".format(cooler_names[i])]] = balanced
-    #    print(regions)
-#    res_df = pd.concat([res_df, regions]) 
 
 def get_sum_of_contacts(x, cools, cooler_names, cols, intnames):
     (chrom1) = x.loc["chrom1"]
