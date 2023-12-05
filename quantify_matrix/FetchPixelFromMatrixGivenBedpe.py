@@ -11,6 +11,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--cool", type=str, nargs='+', required=True, help="Path to cool file(s) to extract values from.")
 parser.add_argument("--res", type=int, required=True, help="Resolution (bin size) of your regions and the cool file.")
 parser.add_argument("--bedpe", type=str, required=True, help="Bedpe file of regions to extract (must have column names : chrom1, start1, end1, chrom2, start2, end2)")
+parser.add_argument("--norm", type=str, required=False, default='VC', help="Name of weight column to apply to contact counts. (Default = VC). VC and VC_SQRT weights are treated as divisive.")
 parser.add_argument("--int_chromnames", action='store_true', required=False, help="When set, use integer chromosome names (1,2,3,...) and not chr1,chr2,etc.")
 args = parser.parse_args()
 # Make output filename based on input bedpe name
@@ -49,14 +50,24 @@ def get_sum_of_contacts(x, cools, cooler_names, cols, intnames):
     (chrom2) = x.loc["chrom2"]
     (start2) = int(x.loc["start2"])
     (end2) = int(x.loc["end2"])
-    # If intnames option selected, make the chromosome names 1,2,3... and not chr1,chr2.chr3...
+    # If intnames option selected, make the chromosome names 1,2,3... and not chr1,chr2.chr3... (assuming the contacts are intra-chromosomal)
     if intnames:
-        chrom1 = re.findall(r'\d+', chrom1)[0]
-        chrom2 = re.findall(r'\d+', chrom2)[0]
+        if 'X' in chrom1:
+            chrom1 = 'X'
+            chrom2 = 'X'
+        elif 'Y' in chrom1:
+            chrom1 = 'Y'
+            chrom2 = 'Y'
+        elif 'MT' in chrom1:
+            chrom1 = 'MT'
+            chrom2 = 'MT'
+        else:
+            chrom1 = re.findall(r'\d+', chrom1)[0]
+            chrom2 = re.findall(r'\d+', chrom2)[0]
     # Loop through coolers and extract raw and balanced counts
     for i in range(len(cools)):
         # Fetch pixels for current coordinate region via cooler's matrix selector
-        pixel = cools[i].matrix(balance="VC", as_pixels=True, join=True).fetch("{}:{}-{}".format(chrom1, start1, end1), "{}:{}-{}".format(chrom2, start2, end2))
+        pixel = cools[i].matrix(balance=args.norm, as_pixels=True, join=True).fetch("{}:{}-{}".format(chrom1, start1, end1), "{}:{}-{}".format(chrom2, start2, end2))
         balanced = sum(pixel['balanced']) # sum balanced if number of pixels in current region > 1
         count = sum(pixel['count']) # sum raw if number of pixels in current region > 1
         if pixel.shape[0] == 0: # if no pixels returned, just set counts to 0
