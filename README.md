@@ -5,6 +5,7 @@ Hosted here are analysis / processing methods for Chromatin Conformtion Capture 
 * [Cooler](https://github.com/open2c/cooler)
 * [hic2cool](https://github.com/4dn-dcic/hic2cool)
 * [Homer](http://homer.ucsd.edu/homer/interactions/)
+* [GENOVA](https://github.com/robinweide/GENOVA)
 
 ### Overview of methods included in this repository
 #### `/processing`
