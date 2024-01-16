@@ -10,7 +10,7 @@ Hosted here are analysis / processing methods for Chromatin Conformtion Capture 
 ### Overview of methods included in this repository
 #### `/processing`
 * **Workflows**:
-  * 3C processing - uses `Juicer` for initial alignment/processing/normalization, then converts to `.(m)cool` using `hic2cool`. First step to processing 3C data.
+  * 3C processing (`./Ingest_3C`) - uses `Juicer` for initial alignment/processing/normalization, then converts to `.(m)cool` using `hic2cool`. First step to processing 3C data.
 * `make_homer_input.sh`: Convert Juicer's `merged_nodup.txt` (or, really any file in [AidenLab's "long" format](https://github.com/aidenlab/juicer/wiki/Pre#long-format)) to a [Homer-compatible format](http://homer.ucsd.edu/homer/interactions/HiCtagDirectory.html). This new input is then used to create a Tag Directory via Homer's `makeTagDirectory`.
 #### `/visualization`
 * A series of R scripts mainly using the `GENOVA` package to do basic analyses and plot 3C data. \
