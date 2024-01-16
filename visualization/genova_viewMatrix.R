@@ -22,8 +22,10 @@ c1 <- explist[[1]]
 c2 <- explist[[2]]
 
 ##### Color palette to be used #####
-#COLORS <- c()
-#options("GENOVA.colour.palette" = {COLORS)})
+COLORS <- c()
+if (length(COLORS) > 0){
+  options("GENOVA.colour.palette" = {COLORS}) 
+}
 
 ########## Plotting a single matrix ##########
 ### Here, we can plot 1 or 2 contact matrices and present in different forms
