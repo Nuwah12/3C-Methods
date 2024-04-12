@@ -1,3 +1,5 @@
+#!/bin/bash
+
 JUICER="/mnt/data0/noah/software/juicer/CPU/juicer.sh"
 
 Top_Dir="/mnt/data0/noah/processing/032524_hic/large_Pre_B_MboI/"
@@ -10,15 +12,8 @@ Juicer_Dir="/mnt/data0/noah/software/juicer"
 CoolFile_Prefix="myCoolFile"
 
 source /mnt/data0/apps/anaconda/anaconda2/bin/activate noah
-
-nohup bash ${JUICER} \
-	-d ${Top_Dir} \
-	-s ${Restriction_Enzyme} \
-	-p ${CromSizes} \
-	-z ${BWA_Genome} \
-	-y ${RestrictionSites} \
-	-D ${Juicer_Dir} \
-	-t 12 &
+echo "Running command bash ${JUICER} -d ${Top_Dir} -s ${Restriction_Enzyme} -p ${CromSizes} -z ${BWA_Genome} -y ${RestrictionSites} -D ${Juicer_Dir} -t 12"
+bash ${JUICER} -d ${Top_Dir} -s ${Restriction_Enzyme} -p ${ChromSizes} -z ${BWA_Genome} -y ${RestrictionSites} -D ${Juicer_Dir} -t 12
 
 hic2cool convert -r 0 "${Top_Dir}/aligned/inter_30.hic" "${CoolFile_Prefix}.mcool"
 
